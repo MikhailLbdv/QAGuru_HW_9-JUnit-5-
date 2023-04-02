@@ -32,7 +32,7 @@ public class SimpleWebTest {
     }
 
     @Disabled("Проверка временно исключается")
-    @DisplayName("Вход в личный кабинет МГТС")
+    @DisplayName("Вход в личный кабинет МГТС через Mos.ru")
     @Test
     void searchTwitter() {
         open("https://mgts.ru/");
