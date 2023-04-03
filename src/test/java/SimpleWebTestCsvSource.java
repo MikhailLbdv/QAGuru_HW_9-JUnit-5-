@@ -1,13 +1,16 @@
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class SimpleWebTest {
+
+public class SimpleWebTestCsvSource {
 
     @BeforeAll
     static void beforeAll() {
@@ -16,8 +19,9 @@ public class SimpleWebTest {
         Configuration.holdBrowserOpen = true;
     }
 
-    @ValueSource(strings = {
-            "Яркий эспрессо", "Сбалансированный эспрессо"
+    @CsvSource(value = {
+            "Наборы, НАБОР С КОФЕ ДЛЯ ЭСПРЕССО",
+            "Рекомендуем, БРАЗИЛИЯ МОЖИАНА"
     })
     @ParameterizedTest
     @DisplayName("Поиск кофе в интернет магазине")
@@ -25,10 +29,11 @@ public class SimpleWebTest {
             @Tag("BLOCKER"),
             @Tag("WEB")
     })
-    void searchCoffee(String testData) {
+    void searchCoffee(String testData, String expectedText) {
         open("https://shop.tastycoffee.ru/");
         $(".m-no-link").hover();
         $(byText("Кофе")).click();
-        $(".catalog_form_filters").shouldHave(text(testData));
+        $(".radioMenu-wrap").$(byText(testData)).click();
+        $(".for_paginate").shouldHave(Condition.text(expectedText));
     }
 }
