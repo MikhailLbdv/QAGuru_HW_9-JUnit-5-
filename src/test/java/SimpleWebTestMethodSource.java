@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -25,22 +26,13 @@ public class SimpleWebTestMethodSource {
         Configuration.holdBrowserOpen = true;
     }
 
-//    static Stream<Arguments> testCoffee() {
-//        return Stream.of(
-//               Arguments.of(TestData.По_возрастанию_цены, List.of("БЭРРИ","ЭФИОПИЯ СИДАМО","КЕНИЯ МАУНТ")),
-//                Arguments.of(TestData.По_убыванию_цены, List.of("КОФЕ + КОФЕМОЛКА + АЭРОПРЕСС","КОФЕ + КОФЕМОЛКА + КРУЖКА","КОФЕ + ФРЕНЧ-ПРЕСС + КОФЕМОЛКА"))
-//        );
-//    }
-
-//    @MethodSource("testCoffee")
-    @ParameterizedTest
-    void searchCoffee() {
+    @Test
+    void searchTestCoffee() {
         open("https://shop.tastycoffee.ru/");
         $(".m-no-link").hover();
         $(byText("Кофе")).click();
-        $(".select-wrap").click();
-        $(".filter-option-inner").$(byText("")).click();
-//        $$("#bs-select-1-0").find(Condition.text(testData.name())).click();
-//        $$(".for_paginate").filter(visible).shouldHave(CollectionCondition.texts(expectedButtons));
+        $(".catalogBox").$(byText("Степень обжарки")).click();
+        $("#bs-select-2").$(byText("Светлая")).click();
+        $(".for_paginate").shouldHave(Condition.text("БРАЗИЛИЯ СУЛЬ-ДЕ-МИНАС"));
     }
 }

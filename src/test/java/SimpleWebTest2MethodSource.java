@@ -24,22 +24,21 @@ public class SimpleWebTest2MethodSource {
         Configuration.holdBrowserOpen = true;
     }
 
-    static Stream<Arguments> searchTestCoffee() {  //  метод совпадает с названием теста, но не активен
+    static Stream<Arguments> searchTestCoffee() {
         return Stream.of(
-                Arguments.of(Filter.Светлая, List.of("БРАЗИЛИЯ СУЛЬ-ДЕ-МИНАС", "КОЛУМБИЯ УИЛА", "ГВАТЕМАЛА САНТЬЯГО")),
-                Arguments.of(Filter.Средняя, List.of("БРАЗИЛИЯ СЕРРАДО", "БРАЗИЛИЯ МОЖИАНА", "ЭФИОПИЯ ГУДЖИ"))
+                Arguments.of(Filter.LIGHT, List.of("БРАЗИЛИЯ СУЛЬ-ДЕ-МИНАС", "КОЛУМБИЯ УИЛА", "ГВАТЕМАЛА САНТЬЯГО")),
+                Arguments.of(Filter.MIDDLE, List.of("БРАЗИЛИЯ СЕРРАДО", "БРАЗИЛИЯ МОЖИАНА", "ЭФИОПИЯ ГУДЖИ"))
         );
     }
 
-    @MethodSource()
+    @MethodSource("searchTestCoffee")
     @ParameterizedTest
-    void searchTestCoffee(String filter, List<String> expectedButtons) {
+    void searchTestCoffee(Filter filter, List<String> expectedButtons) {
         open("https://shop.tastycoffee.ru/");
         $(".m-no-link").hover();
         $(byText("Кофе")).click();
         $(".catalogBox").$(byText("Степень обжарки")).click();
-        $("#bs-select-2").$(byText(filter)).click();
-//        $(".for_paginate").shouldHave(Condition.text(expectedButtons)); // почму так нельзя? почему именно пример ниже?
+        $("#bs-select-2").$(byText(filter.getDesc())).click();
         $$(".for_paginate").shouldHave(CollectionCondition.texts(expectedButtons));
     }
 }
