@@ -39,6 +39,6 @@ public class SimpleWebTest2MethodSource {
         $(byText("Кофе")).click();
         $(".catalogBox").$(byText("Степень обжарки")).click();
         $("#bs-select-2").$(byText(filter.getDesc())).click();
-        $$(".for_paginate").shouldHave(CollectionCondition.texts(expectedButtons));
+        $$(".nameTovar").shouldHave(CollectionCondition.texts(expectedButtons));
     }
 }
